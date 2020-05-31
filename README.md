@@ -23,7 +23,7 @@ settings = {
 };
 
 // Requires Manager from discord-reaction-role
-const ReactionRoleManager = require("discord-reaction-role");
+const ReactionRoleManager = require("reaction-role");
 // Starts updating currents reaction roles
 const manager = new ReactionRoleManager(client, {
     storage: "./reaction-role.json"
