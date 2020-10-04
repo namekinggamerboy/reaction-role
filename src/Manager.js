@@ -29,22 +29,22 @@ class ReactionRolesManager extends EventEmitter {
         const reactionRoleData = this.reactionRole.find(
           (g) => g.messageID === packet.d.message_id && g.reaction === packet.d.emoji.name || g.messageID === packet.d.message_id && g.reaction === packet.d.emoji.id)
         const reaction_role = new ReactionRole(this, reactionRoleData);
-        const guild = this.client.guilds.get(packet.d.guild_id);
+        const guild = this.client.guilds.cache.get(packet.d.guild_id);
         if (!guild) return;
-        const role = guild.roles.get(reaction_role.roleID);
+        const role = guild.roles.cache.get(reaction_role.roleID);
         if (!role) return;
         const member =
-          guild.members.get(packet.d.user_id) ||
+          guild.members.cache.get(packet.d.user_id) ||
           guild.members.fetch(packet.d.user_id);
         if (!member) return;
-        const channel = guild.channels.get(packet.d.channel_id);
+        const channel = guild.channels.cache.get(packet.d.channel_id);
         if (!channel) return;
         const message =
-          channel.messages.get(packet.d.message_id) ||
+          channel.messages.cache.get(packet.d.message_id) ||
           (await channel.messages.fetch(packet.d.message_id));
         if (!message) return;
         if (packet.d.emoji.name !== reaction_role.reaction && packet.d.emoji.id !== reaction_role.reaction) return;
-        const reaction = message.reactions.get(reaction_role.reaction);
+        const reaction = message.reactions.cache.get(reaction_role.reaction);
         if (!reaction) return;
         if (packet.t === "MESSAGE_REACTION_ADD") {
           member.roles.add(role);
@@ -113,8 +113,7 @@ class ReactionRolesManager extends EventEmitter {
         roleID: options.role.id,
         reaction: options.reaction,
       });
-      this.client.channels
-        .get(options.channel.id)
+      this.client.channels.cache.get(options.channel.id)
         .messages.fetch(options.messageID)
         .then((msg) => {
           msg.react(options.reaction);
@@ -192,8 +191,8 @@ class ReactionRolesManager extends EventEmitter {
       );
       const channel = rr[0].channelID
       console.log(channel)
-      this.client.channels.get(channel).messages.fetch(messageID).then((msg) => {
-        msg.reactions.get(reaction).remove()
+      this.client.channels.cache.get(channel).messages.fetch(messageID).then((msg) => {
+        msg.reactions.cache.get(reaction).remove()
       })
     this.reactionRole = this.reactionRole.filter(
       (rr) => rr.reaction !== reaction || rr.messageID !== messageID
