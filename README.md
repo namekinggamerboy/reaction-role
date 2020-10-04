@@ -48,7 +48,7 @@ client.reactionRoleManager.create({
       messageID: '706857963188387903',
       channel: message.channel,
       reaction: '✅',
-      role: message.guild.roles.get('675995543062839306')
+      role: message.guild.roles.cache.get('675995543062839306')
 })
 ```
 
@@ -89,7 +89,7 @@ client.reactionRoleManager.on("reactionRoleRemoved", (reactionRole, member, role
 An example with quick.db
 ```js
 const Discord = require('discord.js');
-const ReactionRolesManager = require("./index");
+const ReactionRolesManager = require("reaction-role");
 const client = new Discord.Client();
 
 const settings = {
