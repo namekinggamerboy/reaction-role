@@ -48,7 +48,7 @@ class ReactionRolesManager extends EventEmitter {
         if (!reaction) return;
         if (packet.t === "MESSAGE_REACTION_ADD") {
 
-        if(this.client.user.id === this.client.user.id) return;
+        if(this.client.user.id === member.id) return;
 
           member.roles.add(role);
            this.emit(
@@ -61,7 +61,7 @@ class ReactionRolesManager extends EventEmitter {
           
         } else {
 
-        if(this.client.user.id === this.client.user.id) return;
+        if(this.client.user.id === member.id) return;
 
           member.roles.remove(role);
           this.emit(
